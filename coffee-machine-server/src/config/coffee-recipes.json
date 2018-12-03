@@ -1,0 +1,10 @@
+[
+  {"id": 1, "name": "Latte", "milkInPercentage": 40, "waterInPercentage": 60, "coffeeBeansInMilligrams": 10, "timeOfBrewingInSeconds": 5},
+  {"id": 2, "name": "Flat White", "milkInPercentage": 30, "waterInPercentage": 70, "coffeeBeansInMilligrams": 10, "timeOfBrewingInSeconds": 15},
+  {"id": 3, "name": "Cappuccino", "milkInPercentage": 50, "waterInPercentage": 50, "coffeeBeansInMilligrams": 10, "timeOfBrewingInSeconds": 25},
+  {"id": 4, "name": "Mocha", "milkInPercentage": 20, "waterInPercentage": 80, "coffeeBeansInMilligrams": 10, "timeOfBrewingInSeconds": 5},
+  {"id": 5, "name": "Americana", "milkInPercentage": 0, "waterInPercentage": 100, "coffeeBeansInMilligrams": 20, "timeOfBrewingInSeconds": 10},
+  {"id": 6, "name": "Espresso", "milkInPercentage": 0, "waterInPercentage": 100, "coffeeBeansInMilligrams": 10, "timeOfBrewingInSeconds": 20},
+  {"id": 7, "name": "Ice Coffee", "milkInPercentage": 30, "waterInPercentage": 70, "coffeeBeansInMilligrams": 10, "timeOfBrewingInSeconds": 20},
+  {"id": 8, "name": "Latte Maccihiato", "milkInPercentage": 60, "waterInPercentage": 40, "coffeeBeansInMilligrams": 10, "timeOfBrewingInSeconds": 20}
+]

@@ -1,0 +1,9 @@
+{
+  "coffeeCupCapacityInMilliliters": 250,
+  "milkFeederEfficiencyInMillilitersPerSecond": 20,
+  "waterTankFeedEfficiencyInMillilitersPerSecond": 40,
+  "waterTankCapacityInMilliliters": 2000,
+  "coffeeBeansContainerCapacityInMilligrams": 400,
+  "coffeeBeansFeedEfficiencyInMillilitersPerSecond": 50,
+  "coffeeGroundsContainerCapacityInMilligrams": 200
+}
