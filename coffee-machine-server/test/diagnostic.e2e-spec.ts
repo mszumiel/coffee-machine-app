@@ -1,9 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 
-describe('AppController (e2e)', () => {
+describe('DiagnosticController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -15,10 +15,16 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/diagnostic/status (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/diagnostic/status')
       .expect(200)
-      .expect('Hello World!');
+      .expect({
+          coffeePreparationInProgress: false,
+          cleaningInProgress: false,
+          waterTankEmpty: false,
+          coffeeBeansContainerEmpty: false,
+          coffeeGroundsContainerFull: false,
+      });
   });
 });

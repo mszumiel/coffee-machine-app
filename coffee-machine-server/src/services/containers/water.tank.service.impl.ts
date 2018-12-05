@@ -1,23 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CoffeeMachineConfigurationService } from '../config/coffee.machine.configuration.service';
+import { ConfigService } from '../../config/config.service';
+import { WaterTankService } from './water.tank.service';
 
 @Injectable()
-export class WaterTankService {
+export class WaterTankServiceImpl implements WaterTankService {
 
   private readonly capacityInMilliliters: number;
   private readonly waterFeedEfficiencyInMillilitersPerSecond: number;
   private currentLevelInMilliliters: number;
   private waterFillRequired = false;
 
-  constructor(private readonly coffeeMachineConfigurationService: CoffeeMachineConfigurationService) {
-    this.capacityInMilliliters = coffeeMachineConfigurationService.getMachineConfiguration().waterTankCapacityInMilliliters;
+  constructor(coffeeMachineConfigurationService: ConfigService) {
+    this.capacityInMilliliters = coffeeMachineConfigurationService.get('waterTankCapacityInMilliliters') as unknown as number;
     this.waterFeedEfficiencyInMillilitersPerSecond =
-      coffeeMachineConfigurationService.getMachineConfiguration().waterTankFeedEfficiencyInMillilitersPerSecond;
+      coffeeMachineConfigurationService.get('waterTankFeedEfficiencyInMillilitersPerSecond') as unknown as number;
     this.currentLevelInMilliliters = this.capacityInMilliliters;
   }
 
-  public async getWater(requiredWaterInMilliliters: number): Promise<number> {
+  public getWater(requiredWaterInMilliliters: number): number {
     if (requiredWaterInMilliliters > this.capacityInMilliliters) {
+      this.waterFillRequired = true;
       return 0;
     }
     if ((this.currentLevelInMilliliters - requiredWaterInMilliliters) < 0) {
@@ -25,10 +27,11 @@ export class WaterTankService {
       return 0;
     }
     this.currentLevelInMilliliters -= requiredWaterInMilliliters;
-    return new Promise(res => {
-      setTimeout(res, (requiredWaterInMilliliters / (this.waterFeedEfficiencyInMillilitersPerSecond) * 1000));
-      return requiredWaterInMilliliters;
-    });
+    if (this.currentLevelInMilliliters === 0) {
+      this.waterFillRequired = true;
+    }
+
+    return requiredWaterInMilliliters;
   }
 
   public isFillRequired(): boolean {

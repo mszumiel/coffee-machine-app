@@ -1,24 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CoffeeMachineConfigurationService } from '../config/coffee.machine.configuration.service';
-import { timeout } from 'rxjs/operators';
+import { ConfigService } from '../../config/config.service';
+import { CoffeeBeansContainerService } from './coffee.beans.container.service';
 
 @Injectable()
-export class CoffeeBeansContainerService {
+export class CoffeeBeansContainerServiceImpl implements CoffeeBeansContainerService {
 
   private readonly capacityInMilligrams: number;
   private readonly beansFeedEfficiencyInMillilitersPerSecond: number;
   private currentLevelInMilligrams: number;
   private beansFillRequired = false;
 
-  constructor(private readonly coffeeMachineConfigurationService: CoffeeMachineConfigurationService) {
-    this.capacityInMilligrams = coffeeMachineConfigurationService.getMachineConfiguration().coffeeBeansContainerCapacityInMilligrams;
+  constructor(coffeeMachineConfigurationService: ConfigService) {
+    this.capacityInMilligrams = coffeeMachineConfigurationService.get('coffeeBeansContainerCapacityInMilligrams') as unknown as number;
     this.beansFeedEfficiencyInMillilitersPerSecond =
-      coffeeMachineConfigurationService.getMachineConfiguration().coffeeBeansFeedEfficiencyInMillilitersPerSecond;
+      coffeeMachineConfigurationService.get('coffeeBeansFeedEfficiencyInMillilitersPerSecond') as unknown as number;
     this.currentLevelInMilligrams = this.capacityInMilligrams;
   }
 
-  public async getBeans(requiredBeansInMilligrams: number): Promise<number> {
+  public getBeans(requiredBeansInMilligrams: number): number {
     if (requiredBeansInMilligrams > this.capacityInMilligrams) {
+      this.beansFillRequired = true;
       return 0;
     }
     if ((this.currentLevelInMilligrams - requiredBeansInMilligrams) < 0) {
@@ -26,10 +27,11 @@ export class CoffeeBeansContainerService {
       return 0;
     }
     this.currentLevelInMilligrams -= requiredBeansInMilligrams;
-    return new Promise(res => {
-      setTimeout(res, (requiredBeansInMilligrams / (this.beansFeedEfficiencyInMillilitersPerSecond) * 1000));
-      return requiredBeansInMilligrams;
-      });
+    if (this.currentLevelInMilligrams === 0) {
+      this.beansFillRequired = true;
+    }
+
+    return requiredBeansInMilligrams;
   }
 
   public isFillRequired(): boolean {

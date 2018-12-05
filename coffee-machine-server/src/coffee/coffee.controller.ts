@@ -1,28 +1,26 @@
-import { Controller, Get, Post } from '@nestjs/common';
-import { CoffeeOrderStatus } from '../model/shared/coffee.order.status';
+import { Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { CoffeeOrderDto } from '../model/dto/coffee.order.dto';
 import { Model } from 'mongoose';
-import { CoffeeRecipe } from '../model/coffee.recipe';
 import { CoffeeService } from './coffee.service';
 
 @Controller('coffee')
 export class CoffeeController {
 
-  constructor(private readonly coffeeService: CoffeeService) {}
-
-  @Post('order')
-  async requestCoffee(): Promise<CoffeeRecipe> {
-    return this.coffeeService.requestCoffee();
+  constructor(private readonly coffeeService: CoffeeService) {
   }
 
-  @Get('status')
-  async getStatus(): Promise<CoffeeOrderDto> {
-    return new CoffeeOrderDto(CoffeeOrderStatus.DONE);
+  @Post(':id/order')
+  requestCoffee(@Param('id') recipeId: number, @Res() res) {
+    const orderedCoffee = this.coffeeService.requestCoffee(recipeId);
+    if (orderedCoffee == null || orderedCoffee === undefined) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+    }
+    res.status(HttpStatus.CREATED).send();
   }
 
-  @Get()
-  async findAll(): Promise<CoffeeRecipe[]> {
-    return this.coffeeService.findAll();
+  @Get(':id/status')
+  getStatus(@Param('id') id: number): CoffeeOrderDto {
+    return this.coffeeService.getStatus(id);
   }
 
 }

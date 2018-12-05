@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
 import { CoffeeController } from './coffee.controller';
-import { CoffeeOrderSchema } from './schemas/coffee.order.schema';
-import { MongooseModule } from '@nestjs/mongoose';
-import { CoffeeOrderService } from '../services/coffee.order.service';
+import { CoffeeService } from './coffee.service';
+import { SharedServicesModule } from '../services/shared.services.module';
+import { DaoModule } from '../dao/dao.module';
+import { CoffeeOrderDaoInMemory } from '../dao/coffee.order.dao.in.memory';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'CoffeeOrder', schema: CoffeeOrderSchema }]),
+    SharedServicesModule,
   ],
   controllers: [CoffeeController],
-  providers: [CoffeeOrderService],
+  providers: [
+    CoffeeService,
+  ],
 })
 export class CoffeeModule {}

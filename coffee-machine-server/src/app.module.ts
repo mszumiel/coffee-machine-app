@@ -1,18 +1,23 @@
 import { Module } from '@nestjs/common';
 import { DiagnosticModule } from './diagnostic/diagnostic.module';
 import { CoffeeModule } from './coffee/coffee.module';
-import { CleanerModule } from './cleaner/cleaner.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { DbConfigService } from './db.config.service';
-import { CoffeeOrderSchema } from './coffee/schemas/coffee.order.schema';
+import { ConfigModule } from './config/config.module';
+import { SharedServicesModule } from './services/shared.services.module';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
+    ConfigModule,
+    SharedServicesModule,
     DiagnosticModule,
     CoffeeModule,
-    CleanerModule,
-    MongooseModule.forRootAsync({
-      useClass: DbConfigService,
+    WinstonModule.forRoot({
+      level: 'debug',
+      format: winston.format.prettyPrint(),
+      transports: [
+        new winston.transports.Console(),
+      ],
     }),
   ],
 })
