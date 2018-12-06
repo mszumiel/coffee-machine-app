@@ -3,6 +3,11 @@ Coffee Machine Application
 # Technology Stack
 ## Backend Layer: Nest.js
 ## Frontend Layer: Vue.js
+# Uruchomienie projektu
+## Warstwa backendowa: npm run start
+## Warstwa frontendowa: npm run serve
+## Testy backendowe: npm run test
+## Mogą pojawić się problemy z ts-node lub jest, należy wówczas dociągnąć zależności poleceniem npm install
 # Analiza
 Podczas analizowania rozwiązania wysunąłem następujące główne założenia co do docelowego działania aplikacji
 #### 1. Jako Firma powinniśmy kontrolować ile mamy instancji maszyn do kawy -> architektura klient-zdalny serwer jest tutaj logiczna
