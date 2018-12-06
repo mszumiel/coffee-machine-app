@@ -2,6 +2,7 @@ import { Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { CoffeeOrderDto } from '../model/dto/coffee.order.dto';
 import { Model } from 'mongoose';
 import { CoffeeService } from './coffee.service';
+import { CoffeeRecipe } from '../model/coffee.recipe';
 
 @Controller('coffee')
 export class CoffeeController {
@@ -21,6 +22,11 @@ export class CoffeeController {
   @Get(':id/status')
   getStatus(@Param('id') id: number): CoffeeOrderDto {
     return this.coffeeService.getStatus(id);
+  }
+
+  @Get('recipes')
+  getRecipes(): CoffeeRecipe[] {
+    return this.coffeeService.getRecipes();
   }
 
 }

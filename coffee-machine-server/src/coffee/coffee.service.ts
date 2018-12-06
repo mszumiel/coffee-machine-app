@@ -56,4 +56,9 @@ export class CoffeeService {
       CoffeeOrderStatus[coffeeOrder.status],
     );
   }
+
+  getRecipes(): CoffeeRecipe[] {
+    return this.coffeeRecipes;
+  }
+
 }

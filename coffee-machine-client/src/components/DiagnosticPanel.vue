@@ -11,10 +11,6 @@
                     <md-table-head>Status</md-table-head>
                 </md-table-row>
                 <md-table-row>
-                    <md-table-cell>Connection With Machine</md-table-cell>
-                    <md-table-cell>{{connectionStatus()}}</md-table-cell>
-                </md-table-row>
-                <md-table-row>
                     <md-table-cell>Cleaning Process</md-table-cell>
                     <md-table-cell>{{cleaningProcess()}}</md-table-cell>
                 </md-table-row>
@@ -46,13 +42,6 @@
             }
         },
         methods: {
-            connectionStatus: function() {
-                if(this.statusDetails == null) {
-                    return 'UNKNOWN'
-                } else {
-                    return this.statusDetails.serverUp ? 'UP' : 'DOWN'
-                }
-            },
             cleaningProcess: function() {
                 if(this.statusDetails == null) {
                     return 'UNKNOWN'
@@ -64,26 +53,26 @@
                 if(this.statusDetails == null) {
                     return 'UNKNOWN'
                 } else {
-                    return this.statusDetails.emptyWaterTank ? 'Lack of Water' : 'OK'
+                    return this.statusDetails.waterTankEmpty ? 'Lack of Water' : 'OK'
                 }
             },
             containerOfCoffeeGroundStatus: function() {
                 if(this.statusDetails == null) {
                     return 'UNKNOWN'
                 } else {
-                    return this.statusDetails.fullContainerOfCoffeeGrounds ? 'Full' : 'OK'
+                    return this.statusDetails.coffeeGroundsContainerFull ? 'Full' : 'OK'
                 }
             },
             coffeeBeansContainerStatus: function() {
                 if(this.statusDetails == null) {
                     return 'UNKNOWN'
                 } else {
-                    return this.statusDetails.coffeeBeansLowLevel ? 'Low Level' : 'OK'
+                    return this.statusDetails.coffeeBeansContainerEmpty ? 'Low Level' : 'OK'
                 }
             }
         },
         created() {
-            axios.get(`/machine-status.json`)
+            axios.get(`http://localhost:3000/diagnostic/status`)
                 .then(response => {
                     this.statusDetails = response.data
                 })

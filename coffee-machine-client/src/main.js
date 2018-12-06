@@ -41,7 +41,19 @@ Vue.use(MdProgress);
 Vue.use(MdTable);
 Vue.use(MdCard);
 
+export const store = {
+    debug: true,
+    state: {
+        status: null
+    },
+    setStatus (status) {
+        this.state.status = status
+    }
+};
+
 new Vue({
     router,
     render: h => h(App),
 }).$mount('#app');
+
+//module.exports = {store};

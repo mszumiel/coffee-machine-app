@@ -44,10 +44,14 @@
         },
         methods: {
             onCoffeeClick: function (coffee) {
-                //Here i'll call server coffee machine to prepare this coffee
-                this.coffeePreparationPopupMessage = 'Progress Stage';
-                this.showCoffeeProgressPopup = true;
-                setTimeout(this.coffeePreparedInfoPopup, 5000)
+                axios.post('http://localhost:3000/coffee/' + coffee.id + '/order')
+                    .then(response => {
+                        this.coffeePreparationPopupMessage = 'Progress Stage';
+                        this.showCoffeeProgressPopup = true;
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    });
             },
             coffeePreparedInfoPopup: function () {
                 this.coffeePreparationPopupMessage = 'Coffee Ready';
@@ -63,7 +67,7 @@
         },
         created() {
             setInterval(() => this.now = new Date, 1000 * 60);
-            axios.get(`/coffee-recipes.json`)
+            axios.get('http://localhost:3000/coffee/recipes')
                 .then(response => {
                     this.coffeeRecipes = response.data
                 })
