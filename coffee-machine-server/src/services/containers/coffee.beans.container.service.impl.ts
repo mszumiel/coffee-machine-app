@@ -6,14 +6,11 @@ import { CoffeeBeansContainerService } from './coffee.beans.container.service';
 export class CoffeeBeansContainerServiceImpl implements CoffeeBeansContainerService {
 
   private readonly capacityInMilligrams: number;
-  private readonly beansFeedEfficiencyInMillilitersPerSecond: number;
   private currentLevelInMilligrams: number;
   private beansFillRequired = false;
 
   constructor(coffeeMachineConfigurationService: ConfigService) {
     this.capacityInMilligrams = coffeeMachineConfigurationService.get('coffeeBeansContainerCapacityInMilligrams') as unknown as number;
-    this.beansFeedEfficiencyInMillilitersPerSecond =
-      coffeeMachineConfigurationService.get('coffeeBeansFeedEfficiencyInMillilitersPerSecond') as unknown as number;
     this.currentLevelInMilligrams = this.capacityInMilligrams;
   }
 

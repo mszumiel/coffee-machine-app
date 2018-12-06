@@ -25,6 +25,7 @@ export class CoffeeService {
   }
 
   requestCoffee(recipeId: number): CoffeeOrder {
+    this.logger.info('request coffee for recipe with id ' + recipeId);
     if (this.cleanerStatusProvider.isWorking()) {
       this.logger.error('coffee machine cleaning in progress, cannot prepare coffee');
       return null;
@@ -40,6 +41,7 @@ export class CoffeeService {
       this.logger.error('error occurred while saving coffee order ' + JSON.stringify(coffeeRecipeToRequest));
       return null;
     }
+    this.logger.info('prepare coffee with recipe ' + JSON.stringify(orderedCoffee));
     this.coffeePreparationService.prepareCoffee(orderedCoffee.id);
     return orderedCoffee;
   }

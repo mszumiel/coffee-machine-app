@@ -38,7 +38,7 @@ describe('Coffee Controller', () => {
       save: jest.fn((coffeeRecipe: CoffeeRecipe, status: CoffeeOrderStatus) => null),
       updateStatus: jest.fn((orderToUpdate: CoffeeOrder, statusToUpdate: CoffeeOrderStatus) => null),
       findOne: jest.fn((coffeeOrderId: number) => null),
-  };
+    };
     mockedAppConfig = new ConfigService(`src/config/config-dev.env`);
     mockedCoffeePreparationService = new CoffeePreparationService(
       logger,

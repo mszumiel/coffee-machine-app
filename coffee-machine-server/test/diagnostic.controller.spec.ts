@@ -71,12 +71,12 @@ describe('Diagnostic Controller', () => {
   it('should return machine status', () => {
     // given
     // when
-    const machineStatus: MachineStatusDto = diagnosticController.getStatus();
+    const actualMachineStatus: MachineStatusDto = diagnosticController.getStatus();
     // then
-    expect(machineStatus.cleaningInProgress).toBe(false);
-    expect(machineStatus.coffeeBeansContainerEmpty).toBe(false);
-    expect(machineStatus.coffeeGroundsContainerFull).toBe(false);
-    expect(machineStatus.coffeePreparationInProgress).toBe(true);
-    expect(machineStatus.waterTankEmpty).toBe(false);
+    expect(actualMachineStatus.cleaningInProgress).toBe(false);
+    expect(actualMachineStatus.coffeeBeansContainerEmpty).toBe(false);
+    expect(actualMachineStatus.coffeeGroundsContainerFull).toBe(false);
+    expect(actualMachineStatus.coffeePreparationInProgress).toBe(true);
+    expect(actualMachineStatus.waterTankEmpty).toBe(false);
   });
 });

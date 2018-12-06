@@ -6,14 +6,11 @@ import { WaterTankService } from './water.tank.service';
 export class WaterTankServiceImpl implements WaterTankService {
 
   private readonly capacityInMilliliters: number;
-  private readonly waterFeedEfficiencyInMillilitersPerSecond: number;
   private currentLevelInMilliliters: number;
   private waterFillRequired = false;
 
   constructor(coffeeMachineConfigurationService: ConfigService) {
     this.capacityInMilliliters = coffeeMachineConfigurationService.get('waterTankCapacityInMilliliters') as unknown as number;
-    this.waterFeedEfficiencyInMillilitersPerSecond =
-      coffeeMachineConfigurationService.get('waterTankFeedEfficiencyInMillilitersPerSecond') as unknown as number;
     this.currentLevelInMilliliters = this.capacityInMilliliters;
   }
 
