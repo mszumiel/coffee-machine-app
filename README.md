@@ -38,6 +38,7 @@ Podczas analizowania rozwiązania wysunąłem następujące główne założenia
 
 # Do realizacji/dokończenia w aplikacji
 ## Test e2e dla operacji pobierania listy przepisów na kawę
-## Aplikacja frontend po zamówieniu na kawę powinna monitorować status zlecenia
+## Aplikacja frontend po zamówieniu na kawę powinna monitorować status zlecenia, użycie WebWorkera do aktualizacji stanu urządzenia po stronie aplikacji Frontend
 ## Refactor po stronie Frontendowej m.in. adres do REST API Backendu, refactor ogólny kodu
-## 
+## Opcjonalne wprowadzenie opóźnień czasowych w serwisach odpowiedzialnych za pobieranie ziaren kawy, wody oraz mleka
+## Poprawki estetyczne warstwy Frontend
