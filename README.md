@@ -47,3 +47,4 @@ Podczas analizowania rozwiązania wysunąłem następujące główne założenia
 ## Refactor po stronie Frontendowej m.in. adres do REST API Backendu, refactor ogólny kodu
 ## Opcjonalne wprowadzenie opóźnień czasowych w serwisach odpowiedzialnych za pobieranie ziaren kawy, wody oraz mleka
 ## Poprawki estetyczne warstwy Frontend
+## Konfiguracja Security pomiędzy backendem a Frontendem
