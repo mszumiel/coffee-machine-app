@@ -1,11 +1,5 @@
 <template>
     <div class="md-layout md-gutter">
-        <PopupDialog v-bind:displayPopup="showCoffeeProgressPopup"
-                     title="Coffee In Preparation"
-                     v-bind:content="coffeePreparationPopupMessage"
-                     v-bind:isWorkInProgressPopup="popupInWorkInProgressMode"
-                     v-bind:isInfoPopup="popupInWorkInInfoMode"
-        ></PopupDialog>
         <div class="md-layout-item md-size-30"></div>
         <div class="md-layout-item">
             <div style="font-size: 25px;margin-top: 5%;">
@@ -13,8 +7,9 @@
             </div>
             <div class="elevation-demo">
                 <md-button v-for="coffee in coffeeRecipes"
-                           v-on:click="onCoffeeClick(coffee)"
+                           @click="onCoffeeClick(coffee)"
                            style="width: 300px;height: 80px; margin: 5px"
+                           :disabled="selectionDisabled"
                            class="md-raised">
                     {{coffee.name}}
                 </md-button>
@@ -27,53 +22,36 @@
 <script>
     import axios from 'axios';
     import PopupDialog from "@/components/PopupDialog";
+    import {config} from '../config'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'MainPanel',
         components: {PopupDialog},
-        props: {},
         data() {
             return {
-                coffeeRecipes: [],
-                showCoffeeProgressPopup: false,
-                coffeePreparationPopupMessage: 'Progress Stage',
-                popupInWorkInProgressMode: true,
-                popupInWorkInInfoMode: false,
                 now: new Date
             }
         },
+        computed: {
+            ...mapGetters([
+                'coffeeRecipes',
+                'selectionDisabled'
+            ])
+        },
         methods: {
             onCoffeeClick: function (coffee) {
-                axios.post('http://localhost:3000/coffee/' + coffee.id + '/order')
-                    .then(response => {
-                        this.coffeePreparationPopupMessage = 'Progress Stage';
-                        this.showCoffeeProgressPopup = true;
+                axios.post(`${config.baseUrl}/coffee/${coffee.id}/order`)
+                    .then(() => {
+                        this.$store.commit('disableSelection');
                     })
                     .catch(e => {
                         this.errors.push(e)
                     });
-            },
-            coffeePreparedInfoPopup: function () {
-                this.coffeePreparationPopupMessage = 'Coffee Ready';
-                this.popupInWorkInProgressMode = false;
-                this.popupInWorkInInfoMode = true;
-                setTimeout(this.coffeePreparedClosePopup, 2000)
-            },
-            coffeePreparedClosePopup: function () {
-                this.popupInWorkInProgressMode = true;
-                this.popupInWorkInInfoMode = false;
-                this.showCoffeeProgressPopup = false;
             }
         },
         created() {
             setInterval(() => this.now = new Date, 1000 * 60);
-            axios.get('http://localhost:3000/coffee/recipes')
-                .then(response => {
-                    this.coffeeRecipes = response.data
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                })
         }
     }
 </script>

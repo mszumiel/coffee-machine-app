@@ -34,6 +34,8 @@
 
 <script>
     import axios from 'axios';
+    import {config} from '../config'
+
     export default {
         name: "DiagnosticPanel",
         data() {
@@ -72,7 +74,7 @@
             }
         },
         created() {
-            axios.get(`http://localhost:3000/diagnostic/status`)
+            axios.get(`${config.baseUrl}/diagnostic/status`)
                 .then(response => {
                     this.statusDetails = response.data
                 })

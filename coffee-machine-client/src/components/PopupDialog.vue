@@ -31,15 +31,10 @@
         props: {
             title: String,
             content: String,
-            isWorkInProgressPopup: Boolean,
-            isAlertPopup: Boolean,
-            isInfoPopup: Boolean,
+            isWorkInProgressPopup: false,
+            isAlertPopup: false,
+            isInfoPopup: false,
             displayPopup: Boolean
-        },
-        created() {
-            this.isWorkInProgressPopup = false;
-            this.isAlertPopup = false;
-            this.isInfoPopup = false;
         }
     }
 </script>

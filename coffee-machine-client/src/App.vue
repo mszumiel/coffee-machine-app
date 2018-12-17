@@ -1,11 +1,11 @@
 <template>
     <div id="app">
-        <PopupDialog v-bind:displayPopup="showMachineAccessPopup()"
+        <PopupDialog :displayPopup="showMachineAccessPopup()"
                      title="Coffee In Preparation"
-                     v-bind:content="machineAccessPopupMessage"
-                     v-bind:isWorkInProgressPopup="false"
-                     v-bind:isInfoPopup="isInfoPopup"
-                     v-bind:isAlertPopup="isAlertPopup"
+                     :content="machineAccessPopupMessage"
+                     :isWorkInProgressPopup="false"
+                     :isInfoPopup="isInfoPopup"
+                     :isAlertPopup="isAlertPopup"
         ></PopupDialog>
         <img alt="Coffee Machine App Logo" src="./assets/coffee-machine-symbol.png">
         <router-view></router-view>
@@ -25,9 +25,9 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import PopupDialog from "@/components/PopupDialog";
-    import { store } from './main.js'
+    import axios from 'axios';
+    import {config} from './config'
 
     export default {
         name: 'app',
@@ -43,24 +43,24 @@
         methods: {
             showMachineAccessPopup: function () {
                 let displayPopup = false;
-                if (store.state.status != null) {
-                    if(store.state.status.coffeePreparationInProgress === true) {
+                if (this.$store.getters.status != null) {
+                    if (this.$store.getters.status.coffeePreparationInProgress === true) {
                         this.machineAccessPopupMessage = 'Coffee In Preparation';
                         displayPopup = true;
                     }
-                    if(store.state.status.cleaningInProgress === true) {
+                    if (this.$store.getters.status.cleaningInProgress === true) {
                         this.machineAccessPopupMessage = 'Cleaning In Progress';
                         displayPopup = true;
                     }
-                    if(store.state.status.waterTankEmpty === true) {
+                    if (this.$store.getters.status.waterTankEmpty === true) {
                         this.machineAccessPopupMessage = 'Water Tanks Requires To be emptied';
                         displayPopup = true;
                     }
-                    if(store.state.status.coffeeBeansContainerEmpty === true) {
+                    if (this.$store.getters.status.coffeeBeansContainerEmpty === true) {
                         this.machineAccessPopupMessage = 'Coffee Beans needs to be refilled';
                         displayPopup = true;
                     }
-                    if(store.state.status.coffeeGroundsContainerFull === true) {
+                    if (this.$store.getters.status.coffeeGroundsContainerFull === true) {
                         this.machineAccessPopupMessage = 'Coffee Grounds Requires To be emptied';
                         displayPopup = true;
                     }
@@ -69,13 +69,16 @@
             },
         },
         created() {
-            axios.get(`http://localhost:3000/diagnostic/status`)
-                .then(response => {
-                    store.setStatus(response.data);
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                })
+            setInterval(() => {
+                axios.get(`${config.baseUrl}/diagnostic/status`)
+                    .then(response => {
+                        this.$store.commit('setStatus', response.data);
+                        this.$store.commit('updateSelectionStatus');
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            }, 1000 * 3);
         }
     }
 </script>
