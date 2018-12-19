@@ -1,3 +1,3 @@
 export interface MilkFeederService {
-  getMilk(requiredMilkInMilliliters: number): number;
+  getMilk(requiredMilkInMilliliters: number): Promise<number>;
 }
