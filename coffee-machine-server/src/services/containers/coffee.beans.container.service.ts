@@ -1,5 +1,5 @@
 export interface CoffeeBeansContainerService {
-  getBeans(requiredBeansInMilligrams: number): number;
-  isFillRequired(): boolean;
+  getBeans(requiredBeansInMilligrams: number): Promise<number>;
+  isFillRequired(): Promise<boolean>;
   fillWithBeans();
 }

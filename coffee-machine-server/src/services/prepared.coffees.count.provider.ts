@@ -1,3 +1,3 @@
 export interface PreparedCoffeesCountProvider {
-  getNumberOfPreparedCoffees(): number;
+  getNumberOfPreparedCoffees(): Promise<number>;
 }

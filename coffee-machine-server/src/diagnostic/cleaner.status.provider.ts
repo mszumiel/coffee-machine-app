@@ -1,3 +1,3 @@
 export interface CleanerStatusProvider {
-  isWorking(): boolean;
+  isWorking(): Promise<boolean>;
 }

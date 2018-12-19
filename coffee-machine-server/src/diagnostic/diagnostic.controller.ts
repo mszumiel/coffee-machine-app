@@ -10,7 +10,7 @@ export class DiagnosticController {
   ) {}
 
   @Get('status')
-  getStatus(): MachineStatusDto {
+  getStatus(): Promise<MachineStatusDto> {
     return this.diagnosticService.getMachineStatus();
   }
 

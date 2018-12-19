@@ -1,5 +1,5 @@
 export interface WaterTankService {
-  getWater(requiredWaterInMilliliters: number): number;
-  isFillRequired(): boolean;
+  getWater(requiredWaterInMilliliters: number): Promise<number>;
+  isFillRequired(): Promise<boolean>;
   fillWithWater();
 }
