@@ -26,8 +26,7 @@
 
 <script>
     import PopupDialog from "@/components/PopupDialog";
-    import axios from 'axios';
-    import {config} from './config'
+    import {diagnosticService} from "@/services/diagnostic.service";
 
     export default {
         name: 'app',
@@ -70,13 +69,10 @@
         },
         created() {
             setInterval(() => {
-                axios.get(`${config.baseUrl}/diagnostic/status`)
-                    .then(response => {
-                        this.$store.commit('setStatus', response.data);
+                diagnosticService.getStatus()
+                    .then((status) => {
+                        this.$store.commit('setStatus', status);
                         this.$store.commit('updateSelectionStatus');
-                    })
-                    .catch(e => {
-                        console.error(e);
                     });
             }, 1000 * 3);
         }

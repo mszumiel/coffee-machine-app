@@ -6,6 +6,7 @@ import DiagnosticPanel from './components/DiagnosticPanel'
 
 Vue.use(VueRouter);
 export const router = new VueRouter({
+    base: process.env.BASE_URL,
     routes: [
         {
             path: '/',

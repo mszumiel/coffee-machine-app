@@ -20,10 +20,11 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    //   import axios from 'axios';
     import PopupDialog from "@/components/PopupDialog";
-    import {config} from '../config'
+    //   import {config} from '../config'
     import {mapGetters} from 'vuex'
+    import {coffeeService} from "@/services/coffee.service";
 
     export default {
         name: 'MainPanel',
@@ -41,13 +42,17 @@
         },
         methods: {
             onCoffeeClick: function (coffee) {
-                axios.post(`${config.baseUrl}/coffee/${coffee.id}/order`)
+                coffeeService.createOrder(coffee.id)
                     .then(() => {
                         this.$store.commit('disableSelection');
-                    })
-                    .catch(e => {
-                        this.errors.push(e)
                     });
+                /*   axios.post(`${config.baseUrl}/coffee/${coffee.id}/order`)
+                       .then(() => {
+                           this.$store.commit('disableSelection');
+                       })
+                       .catch(e => {
+                           this.errors.push(e)
+                       });*/
             }
         },
         created() {
