@@ -33,8 +33,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import {config} from '../config'
+    import {diagnosticService} from "@/services/diagnostic.service";
 
     export default {
         name: "DiagnosticPanel",
@@ -74,12 +73,9 @@
             }
         },
         created() {
-            axios.get(`${config.baseUrl}/diagnostic/status`)
-                .then(response => {
-                    this.statusDetails = response.data
-                })
-                .catch(e => {
-                    this.errors.push(e)
+            diagnosticService.getStatus()
+                .then((status) => {
+                    this.statusDetails = status
                 })
         }
     }

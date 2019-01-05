@@ -26,7 +26,7 @@ export const store = new Vuex.Store({
         },
         updateSelectionStatus: state => {
             if (state.status !== null && state.status !== undefined && state.status.coffeePreparationInProgress) {
-                this.enableSelection(state)
+                state.coffeeRecipesSelectionDisabled = false;
             }
         },
         setCoffeeRecipes: (state, recipes) => {
