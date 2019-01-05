@@ -1,9 +1,7 @@
-import {Test, TestingModule} from '@nestjs/testing';
-import {CoffeeBeansContainerServiceImpl} from '../src/services/containers/coffee.beans.container.service.impl';
-import {ConfigModule} from '../src/config/config.module';
-import {ConfigService} from '../src/config/config.service';
-import {WaterTankServiceImpl} from '../src/services/containers/water.tank.service.impl';
-import {CoffeeGroundsContainerServiceImpl} from '../src/services/containers/coffee.grounds.container.service.impl';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigModule } from '../src/config/config.module';
+import { ConfigService } from '../src/config/config.service';
+import { CoffeeGroundsContainerServiceImpl } from '../src/services/containers/coffee.grounds.container.service.impl';
 
 describe('CoffeeGroundsContainerServiceImpl Service', () => {
     let module: TestingModule;
@@ -27,10 +25,15 @@ describe('CoffeeGroundsContainerServiceImpl Service', () => {
         const serviceToTest: CoffeeGroundsContainerServiceImpl = module.get<CoffeeGroundsContainerServiceImpl>(CoffeeGroundsContainerServiceImpl);
         serviceToTest.emptyTheContainer();
         // when
-        const actualFilledWithGrounds = serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams);
-        // then
-        expect(actualFilledWithGrounds).toBe(true);
-        expect(serviceToTest.isEmptiedRequired()).toBe(false);
+        return serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams)
+          .then((actualFilledWithGrounds: boolean ) => {
+            // then
+            expect(actualFilledWithGrounds).toBe(true);
+            serviceToTest.isEmptiedRequired()
+              .then((isEmptiedRequired: boolean) => {
+                expect(isEmptiedRequired).toBe(false);
+              });
+          });
     });
 
     it('should fill coffee grounds and return that it did not fill successfully', () => {
@@ -40,10 +43,15 @@ describe('CoffeeGroundsContainerServiceImpl Service', () => {
         const serviceToTest: CoffeeGroundsContainerServiceImpl = module.get<CoffeeGroundsContainerServiceImpl>(CoffeeGroundsContainerServiceImpl);
         serviceToTest.emptyTheContainer();
         // when
-        const actualFilledWithGrounds = serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams);
-        // then
-        expect(actualFilledWithGrounds).toBe(false);
-        expect(serviceToTest.isEmptiedRequired()).toBe(true);
+        return serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams)
+          .then((actualFilledWithGrounds: boolean) => {
+            // then
+            expect(actualFilledWithGrounds).toBe(false);
+            serviceToTest.isEmptiedRequired()
+              .then((isEmptiedRequired: boolean) => {
+                expect(isEmptiedRequired).toBe(true);
+              });
+          });
     });
 
     it('should fill coffee grounds with summarize size equal to container capacity and return that it filled successfully and required to be emptied', () => {
@@ -53,12 +61,19 @@ describe('CoffeeGroundsContainerServiceImpl Service', () => {
         const serviceToTest: CoffeeGroundsContainerServiceImpl = module.get<CoffeeGroundsContainerServiceImpl>(CoffeeGroundsContainerServiceImpl);
         serviceToTest.emptyTheContainer();
         // when
-        const actualFilledWithGroundsFirstTime = serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams);
-        const actualFilledWithGroundsSecondTime = serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams);
-        // then
-        expect(actualFilledWithGroundsFirstTime).toBe(true);
-        expect(actualFilledWithGroundsSecondTime).toBe(true);
-        expect(serviceToTest.isEmptiedRequired()).toBe(true);
+        return serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams)
+          .then((actualFilledWithGroundsFirstTime: boolean) => {
+            serviceToTest.fillWithGrounds(givenCoffeeGroundsToFillWithInMilligrams)
+              .then((actualFilledWithGroundsSecondTime: boolean) => {
+                // then
+                expect(actualFilledWithGroundsFirstTime).toBe(true);
+                expect(actualFilledWithGroundsSecondTime).toBe(true);
+                serviceToTest.isEmptiedRequired()
+                  .then((isEmptiedRequired: boolean) => {
+                    expect(isEmptiedRequired).toBe(true);
+                  });
+              });
+          });
     });
 
 });

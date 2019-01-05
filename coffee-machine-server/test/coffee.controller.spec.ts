@@ -35,9 +35,9 @@ describe('Coffee Controller', () => {
       ]});
 
     mockedCoffeeOrderDao = {
-      save: jest.fn((coffeeRecipe: CoffeeRecipe, status: CoffeeOrderStatus) => null),
-      updateStatus: jest.fn((orderToUpdate: CoffeeOrder, statusToUpdate: CoffeeOrderStatus) => null),
-      findOne: jest.fn((coffeeOrderId: number) => null),
+      save: jest.fn((coffeeRecipe: CoffeeRecipe, status: CoffeeOrderStatus) => Promise.resolve(null)),
+      updateStatus: jest.fn((orderToUpdate: CoffeeOrder, statusToUpdate: CoffeeOrderStatus) => Promise.resolve(null)),
+      findOne: jest.fn((coffeeOrderId: number) => Promise.resolve(null)),
     };
     mockedAppConfig = new ConfigService(`src/config/config-dev.env`);
     mockedCoffeePreparationService = new CoffeePreparationService(
@@ -46,18 +46,17 @@ describe('Coffee Controller', () => {
       mockedAppConfig,
       new CoffeeBeansContainerServiceImpl(mockedAppConfig),
       new CoffeeGroundsContainerServiceImpl(mockedAppConfig),
-      new MilkFeederServiceImpl(mockedAppConfig),
+      new MilkFeederServiceImpl(),
       new WaterTankServiceImpl(mockedAppConfig),
     );
     mockedCleanerStatusProvider = {
-      isWorking: jest.fn(() => false),
+      isWorking: jest.fn(() => Promise.resolve(false)),
     };
     coffeeService = new CoffeeService(
       logger,
       mockedCleanerStatusProvider,
       mockedCoffeeOrderDao,
       mockedCoffeePreparationService,
-      mockedAppConfig,
     );
     coffeeController = new CoffeeController(coffeeService);
   });
@@ -66,12 +65,14 @@ describe('Coffee Controller', () => {
     // given
     const expectedId = 1;
     const expectedStatus = 'NOT_ORDERED';
-    jest.spyOn(mockedCoffeeOrderDao, 'findOne').mockImplementation(() => null);
+    jest.spyOn(mockedCoffeeOrderDao, 'findOne').mockImplementation(() => Promise.resolve(null));
     // when
-    const actualCoffeeOrder: CoffeeOrderDto = coffeeController.getStatus(1);
-    // then
-    expect(actualCoffeeOrder.id).toBe(expectedId);
-    expect(actualCoffeeOrder.status).toBe(expectedStatus);
+    return coffeeController.getStatus(1)
+      .then((actualCoffeeOrder: CoffeeOrderDto) => {
+        // then
+        expect(actualCoffeeOrder.id).toBe(expectedId);
+        expect(actualCoffeeOrder.status).toBe(expectedStatus);
+      });
   });
 
   it('should get coffee status return status when coffee order saved', () => {
@@ -80,12 +81,14 @@ describe('Coffee Controller', () => {
       1, CoffeeOrderStatus.IN_PROGRESS,
       5, 5,
       5, 5);
-    jest.spyOn(mockedCoffeeOrderDao, 'findOne').mockImplementation(() => coffeeOrderToReturn);
+    jest.spyOn(mockedCoffeeOrderDao, 'findOne').mockImplementation(() => Promise.resolve(coffeeOrderToReturn));
     // when
-    const actualCoffeeOrder: CoffeeOrderDto = coffeeController.getStatus(1);
-    // then
-    expect(actualCoffeeOrder.id).toBe(coffeeOrderToReturn.id);
-    expect(actualCoffeeOrder.status).toBe(CoffeeOrderStatus[coffeeOrderToReturn.status]);
+    return coffeeController.getStatus(1)
+      .then((actualCoffeeOrder: CoffeeOrderDto) => {
+        // then
+        expect(actualCoffeeOrder.id).toBe(coffeeOrderToReturn.id);
+        expect(actualCoffeeOrder.status).toBe(CoffeeOrderStatus[coffeeOrderToReturn.status]);
+      });
   });
 
 });

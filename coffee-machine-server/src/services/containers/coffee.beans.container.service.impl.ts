@@ -35,7 +35,7 @@ export class CoffeeBeansContainerServiceImpl implements CoffeeBeansContainerServ
         return Promise.resolve(this.beansFillRequired);
     }
 
-    public async fillWithBeans() {
+    public fillWithBeans() {
         this.currentLevelInMilligrams = this.capacityInMilligrams;
         this.beansFillRequired = false;
     }
