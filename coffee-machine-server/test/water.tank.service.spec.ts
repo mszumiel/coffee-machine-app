@@ -25,10 +25,15 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: WaterTankServiceImpl = module.get<WaterTankServiceImpl>(WaterTankServiceImpl);
     serviceToTest.fillWithWater();
     // when
-    const actualReceivedWaterInMilliliters = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    // then
-    expect(actualReceivedWaterInMilliliters).toBe(givenRequiredWaterInMillilitersForTest);
-    expect(serviceToTest.isFillRequired()).toBe(false);
+    return serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+      .then((actualReceivedWaterInMilliliters: number) => {
+        // then
+        expect(actualReceivedWaterInMilliliters).toBe(givenRequiredWaterInMillilitersForTest);
+        serviceToTest.isFillRequired()
+          .then((isFillRequired: boolean) => {
+            expect(isFillRequired).toBe(false);
+          });
+      });
   });
 
   it('should get water with size greater then capacity from tank and return that it needs refill', () => {
@@ -38,10 +43,15 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: WaterTankServiceImpl = module.get<WaterTankServiceImpl>(WaterTankServiceImpl);
     serviceToTest.fillWithWater();
     // when
-    const actualReceivedWaterInMilliliters = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    // then
-    expect(actualReceivedWaterInMilliliters).toBe(0);
-    expect(serviceToTest.isFillRequired()).toBe(true);
+    return serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+      .then((actualReceivedWaterInMilliliters: number) => {
+        // then
+        expect(actualReceivedWaterInMilliliters).toBe(0);
+        serviceToTest.isFillRequired()
+          .then((isFillRequired: boolean) => {
+            expect(isFillRequired).toBe(true);
+          });
+      });
   });
 
   it('should get water with summarized size equal to capacity from tank and return that it needs refill', () => {
@@ -51,12 +61,19 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: WaterTankServiceImpl = module.get<WaterTankServiceImpl>(WaterTankServiceImpl);
     serviceToTest.fillWithWater();
     // when
-    const actualReceivedWaterFirstTime = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    const actualReceivedWaterSecondTime = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    // then
-    expect(actualReceivedWaterFirstTime).toBe(givenRequiredWaterInMillilitersForTest);
-    expect(actualReceivedWaterSecondTime).toBe(givenRequiredWaterInMillilitersForTest);
-    expect(serviceToTest.isFillRequired()).toBe(true);
+    return serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+      .then((actualReceivedWaterFirstTime: number) => {
+        serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+          .then((actualReceivedWaterSecondTime: number) => {
+            // then
+            expect(actualReceivedWaterFirstTime).toBe(givenRequiredWaterInMillilitersForTest);
+            expect(actualReceivedWaterSecondTime).toBe(givenRequiredWaterInMillilitersForTest);
+            serviceToTest.isFillRequired()
+              .then((isFillRequired: boolean) => {
+                expect(isFillRequired).toBe(true);
+              });
+          });
+      });
   });
 
   it('should get water with summarized size greater to capacity from tank and return that it needs refill', () => {
@@ -66,14 +83,23 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: WaterTankServiceImpl = module.get<WaterTankServiceImpl>(WaterTankServiceImpl);
     serviceToTest.fillWithWater();
     // when
-    const actualReceivedWaterFirstTime = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    const actualReceivedWaterSecondTime = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    const actualReceivedWaterThirdTime = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    // then
-    expect(actualReceivedWaterFirstTime).toBe(givenRequiredWaterInMillilitersForTest);
-    expect(actualReceivedWaterSecondTime).toBe(givenRequiredWaterInMillilitersForTest);
-    expect(actualReceivedWaterThirdTime).toBe(0);
-    expect(serviceToTest.isFillRequired()).toBe(true);
+    return serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+      .then((actualReceivedWaterFirstTime: number ) => {
+        serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+          .then((actualReceivedWaterSecondTime: number ) => {
+            serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+              .then((actualReceivedWaterThirdTime: number) => {
+                // then
+                expect(actualReceivedWaterFirstTime).toBe(givenRequiredWaterInMillilitersForTest);
+                expect(actualReceivedWaterSecondTime).toBe(givenRequiredWaterInMillilitersForTest);
+                expect(actualReceivedWaterThirdTime).toBe(0);
+                serviceToTest.isFillRequired()
+                  .then((isFillRequired: boolean) => {
+                    expect(isFillRequired).toBe(true);
+                  });
+              });
+          });
+      });
   });
 
   it('should get water with size greater then capacity from tank and after refill should return water', () => {
@@ -83,15 +109,23 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: WaterTankServiceImpl = module.get<WaterTankServiceImpl>(WaterTankServiceImpl);
     serviceToTest.fillWithWater();
     // when
-    const actualReceivedWaterFirstTime: number = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    const actualIsRefillNeededAfterSecond: boolean = serviceToTest.isFillRequired();
-    serviceToTest.fillWithWater();
-    const actualReceivedWaterThirdTime: number = serviceToTest.getWater(givenRequiredWaterInMillilitersForTest);
-    // then
-    expect(actualReceivedWaterFirstTime).toBe(givenRequiredWaterInMillilitersForTest);
-    expect(actualIsRefillNeededAfterSecond).toBe(true);
-    expect(actualReceivedWaterThirdTime).toBe(givenRequiredWaterInMillilitersForTest);
+    return serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+      .then((actualReceivedWaterFirstTime: number ) => {
+        serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+          .then((water: number) => {
+            serviceToTest.isFillRequired()
+              .then((actualIsRefillNeededAfterSecond: boolean) => {
+                serviceToTest.fillWithWater();
+                serviceToTest.getWater(givenRequiredWaterInMillilitersForTest)
+                  .then((actualReceivedWaterThirdTime: number ) => {
+                    // then
+                    expect(actualReceivedWaterFirstTime).toBe(givenRequiredWaterInMillilitersForTest);
+                    expect(actualIsRefillNeededAfterSecond).toBe(true);
+                    expect(actualReceivedWaterThirdTime).toBe(givenRequiredWaterInMillilitersForTest);
+                  });
+              });
+          });
+      });
   });
 
 });

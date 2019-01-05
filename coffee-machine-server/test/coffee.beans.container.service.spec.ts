@@ -25,10 +25,15 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: CoffeeBeansContainerServiceImpl = module.get<CoffeeBeansContainerServiceImpl>(CoffeeBeansContainerServiceImpl);
     serviceToTest.fillWithBeans();
     // when
-    const actualReceivedBeansInMilligrams = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    // then
-    expect(actualReceivedBeansInMilligrams).toBe(givenRequiredBeansInMilligramsForTest);
-    expect(serviceToTest.isFillRequired()).toBe(false);
+    return serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+      .then((actualReceivedBeansInMilligrams: number ) => {
+        // then
+        expect(actualReceivedBeansInMilligrams).toBe(givenRequiredBeansInMilligramsForTest);
+        serviceToTest.isFillRequired()
+          .then((isFillRequired: boolean) => {
+            expect(isFillRequired).toBe(false);
+          });
+      });
   });
 
   it('should get beans with size greater then capacity from container and return that it needs refill', () => {
@@ -38,10 +43,15 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: CoffeeBeansContainerServiceImpl = module.get<CoffeeBeansContainerServiceImpl>(CoffeeBeansContainerServiceImpl);
     serviceToTest.fillWithBeans();
     // when
-    const actualReceivedBeansInMilligrams = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    // then
-    expect(actualReceivedBeansInMilligrams).toBe(0);
-    expect(serviceToTest.isFillRequired()).toBe(true);
+    return serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+      .then((actualReceivedBeansInMilligrams: number) => {
+        // then
+        expect(actualReceivedBeansInMilligrams).toBe(0);
+        serviceToTest.isFillRequired()
+          .then((isFillRequired: boolean) => {
+            expect(isFillRequired).toBe(true);
+          });
+      });
   });
 
   it('should get beans with summarized size equal to capacity from container and return that it needs refill', () => {
@@ -51,12 +61,19 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: CoffeeBeansContainerServiceImpl = module.get<CoffeeBeansContainerServiceImpl>(CoffeeBeansContainerServiceImpl);
     serviceToTest.fillWithBeans();
     // when
-    const actualReceivedBeansFirstTime = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    const actualReceivedBeansSecondTime = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    // then
-    expect(actualReceivedBeansFirstTime).toBe(givenRequiredBeansInMilligramsForTest);
-    expect(actualReceivedBeansSecondTime).toBe(givenRequiredBeansInMilligramsForTest);
-    expect(serviceToTest.isFillRequired()).toBe(true);
+    return serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+      .then((actualReceivedBeansFirstTime: number) => {
+        serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+          .then((actualReceivedBeansSecondTime: number ) => {
+            // then
+            expect(actualReceivedBeansFirstTime).toBe(givenRequiredBeansInMilligramsForTest);
+            expect(actualReceivedBeansSecondTime).toBe(givenRequiredBeansInMilligramsForTest);
+            serviceToTest.isFillRequired()
+              .then((isFillRequired: boolean) => {
+                expect(isFillRequired).toBe(true);
+              });
+          });
+      });
   });
 
   it('should get beans with summarized size greater to capacity from container and return that it needs refill', () => {
@@ -66,14 +83,23 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: CoffeeBeansContainerServiceImpl = module.get<CoffeeBeansContainerServiceImpl>(CoffeeBeansContainerServiceImpl);
     serviceToTest.fillWithBeans();
     // when
-    const givenReceivedBeansFirstTime = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    const givenReceivedBeansSecondTime = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    const givenReceivedBeansThirdTime = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    // then
-    expect(givenReceivedBeansFirstTime).toBe(givenRequiredBeansInMilligramsForTest);
-    expect(givenReceivedBeansSecondTime).toBe(givenRequiredBeansInMilligramsForTest);
-    expect(givenReceivedBeansThirdTime).toBe(0);
-    expect(serviceToTest.isFillRequired()).toBe(true);
+    return serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+      .then((givenReceivedBeansFirstTime: number) => {
+        serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+          .then((givenReceivedBeansSecondTime: number) => {
+            serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+              .then((givenReceivedBeansThirdTime: number ) => {
+                // then
+                expect(givenReceivedBeansFirstTime).toBe(givenRequiredBeansInMilligramsForTest);
+                expect(givenReceivedBeansSecondTime).toBe(givenRequiredBeansInMilligramsForTest);
+                expect(givenReceivedBeansThirdTime).toBe(0);
+                serviceToTest.isFillRequired()
+                  .then((isFillRequired: boolean) => {
+                    expect(isFillRequired).toBe(true);
+                  });
+              });
+          });
+      });
   });
 
   it('should get beans with size greater then capacity from container and after refill should return beans', () => {
@@ -83,15 +109,21 @@ describe('CoffeeBeansContainerServiceImpl Service', () => {
     const serviceToTest: CoffeeBeansContainerServiceImpl = module.get<CoffeeBeansContainerServiceImpl>(CoffeeBeansContainerServiceImpl);
     serviceToTest.fillWithBeans();
     // when
-    const actualReceivedBeansFirstTime: number = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    const actualIsRefillNeededAfterSecond: boolean = serviceToTest.isFillRequired();
-    serviceToTest.fillWithBeans();
-    const actualReceivedBeansThirdTime: number = serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
-    // then
-    expect(actualReceivedBeansFirstTime).toBe(givenRequiredBeansInMilligramsForTest);
-    expect(actualIsRefillNeededAfterSecond).toBe(true);
-    expect(actualReceivedBeansThirdTime).toBe(givenRequiredBeansInMilligramsForTest);
+    return serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+      .then((actualReceivedBeansFirstTime: number) => {
+        serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest);
+        serviceToTest.isFillRequired()
+          .then((actualIsRefillNeededAfterSecond: boolean) => {
+            serviceToTest.fillWithBeans();
+            serviceToTest.getBeans(givenRequiredBeansInMilligramsForTest)
+              .then((actualReceivedBeansThirdTime: number ) => {
+                // then
+                expect(actualReceivedBeansFirstTime).toBe(givenRequiredBeansInMilligramsForTest);
+                expect(actualIsRefillNeededAfterSecond).toBe(true);
+                expect(actualReceivedBeansThirdTime).toBe(givenRequiredBeansInMilligramsForTest);
+              });
+          });
+      });
   });
 
 });
