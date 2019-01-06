@@ -20,80 +20,60 @@ Project local setup guide
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+* Install Node.js in version of 8.12.0+ using binaries from official website https://nodejs.org/en/download/
+* Install Vue.js following instructions from https://vuejs.org/v2/guide/installation.html
+* Install Nest.js following instructions from https://docs.nestjs.com/
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
+* Clone project sources from repository using command
 ```
-Give the example
+git clone https://github.com/mszumiel/coffee-machine-app.git 
 ```
-
-And repeat
-
+* Switch to folder 'coffee-machine-client' and execute command
 ```
-until finished
+npm install 
 ```
-
-End with an example of getting some data out of the system or using it for a little demo
+* Switch to folder 'coffee-machine-server' and execute command
+```
+npm install 
+```
+* Start Backend Layer using command (it should start listening on port 3030)
+```
+npm run start
+```
+* Start Frontend Layer using command (it should start listening on port 3030)
+```
+npm run serve 
+```
+* To verify if application is working go to http://localhost:8080
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+To run tests on backend layer execute following command
 ```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+npm run test
 ```
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+* Build production package using following command (command is the same for both backend and frontend)
+```
+npm run build
+```
+* Built packages are ready to be deployed on selected server
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* [Nest.js](https://nestjs.com/) - The web framework used for backend layer
+* [NPM](https://www.npmjs.com/) - Dependency Management and project build tool
+* [Vue.js](https://vuejs.org/) - The web framework used for frontend layer
+* [Google Material](https://material.io/design/) - Used for frontend design
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Maciej Szumielewicz** - https://github.com/mszumiel
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
