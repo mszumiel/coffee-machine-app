@@ -1,15 +1,3 @@
-# coffee-machine-app
-Coffee Machine Application
-# Technology Stack
-## Backend Layer: Nest.js
-## Frontend Layer: Vue.js
-# Uruchomienie projektu
-## Warstwa backendowa: npm run start
-## Warstwa frontendowa: npm run serve
-## Testy backendowe: npm run test
-## Mogą pojawić się problemy z ts-node lub jest, należy wówczas dociągnąć zależności poleceniem npm install
-
-
 # Coffee Machine Project
 
 Web Application which is Coffee Machine System. Client layer application is responsible for requesting new coffees and to manage coffee machine via diagnostic panel. Server layer is responsible for preparation of coffee and to keep machine clean and stable.
