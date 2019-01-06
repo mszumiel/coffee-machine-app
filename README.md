@@ -8,43 +8,92 @@ Coffee Machine Application
 ## Warstwa frontendowa: npm run serve
 ## Testy backendowe: npm run test
 ## Mogą pojawić się problemy z ts-node lub jest, należy wówczas dociągnąć zależności poleceniem npm install
-# Analiza
-Podczas analizowania rozwiązania wysunąłem następujące główne założenia co do docelowego działania aplikacji
-#### 1. Jako Firma powinniśmy kontrolować ile mamy instancji maszyn do kawy -> architektura klient-zdalny serwer jest tutaj logiczna
-#### 2. Urządzenie posiadać będzie wewnętrzną pamięć ulotną po jej restarcie -> warstwa backendowa utrzymuje swój stan za pomocą danych w pamięci
-#### 3. Urządzenie powinno umożliwiać:
-###### 3.1 Zlecanie realizacji zamówienia na kawę
-###### 3.2 Udostępniać dane diagnostyczne i jego stanie technicznym
-###### 3.3 Posiadać wewnętrzny mechanizm utrzymujący urządzenie w stabilnym stanie poprzez kontrolne czyszczenie
-###### 3.4 Lista możliwych przepisów na kawę będzie utrzymywana po stronie pamięci wewnętrznej urządzenia -> konfiguracja trzymana w pliku
-###### 3.5 Urządzenie powinno mieć zbiór konfigurowalnych parametrów -> plik z konfiguracją ładowany podczas startu urządzenia
-###### 3.6 Urządzenie umożliwia pobranie listy przepisów przez klienta przeglądarkowego
-###### Punkt 3.1, 3.2 oraz 3.6 realizowany został przez wystawienie REST API dla klienta
-#### 4. Aby urealistycznić wykonywanie zlecenia wprowadzono do aplikacji sztuczne opóźnienie w czasie przygotowywania kawy
 
-#### 5. Podczas implementacji modelu założyłem istnienie następujących bytów:
-###### 5.1. Zlecenie wykonania kawy
-###### 5.2. Przepis na kawę
-###### 5.3. Status urządzenia
-###### Powyższe byty mają odzwierciedlenie w modelu aplikacji
 
-#### 6. W urządzeniu założyłem istnieje następujących modułów:
-###### 6.1 Moduł do realizacji zamówienia na kawę
-###### 6.2 Moduł odpowiedzialny za pojemnik z wodą
-###### 6.3 Moduł odpowiedzialny za pojemnik z ziarnami kawy
-###### 6.4 Moduł odpowiedzialny za pojemnik na zużytą kawę
-###### 6.5 Moduł odpowiedzialny za dostarczanie mleka do kawy
-###### 6.6 Moduł odpowiedzialny za utrzymywanie czystości technicznej urządzenia
-###### Wszystkie powyższe moduły mają odzwierciedlenie w serwisach w warstwie backendowej aplikacji
+# Coffee Machine Project
 
-#### 7. Z perspektywy użytkownika powinny być dostępne dwa ekrany/widoki
-###### 7.1 Widok głowny z listą możliwych kaw do realizacji
-###### 7.2 Widok diagnostyczny z statusem technicznym urządzenia
+Web Application which is Coffee Machine System. Client layer application is responsible for requesting new coffees and to manage coffee machine via diagnostic panel. Server layer is responsible for preparation of coffee and to keep machine clean and stable.
 
-# Do realizacji/dokończenia w aplikacji
-## Test e2e dla operacji pobierania listy przepisów na kawę
-## Aplikacja frontend po zamówieniu na kawę powinna monitorować status zlecenia, użycie WebWorkera do aktualizacji stanu urządzenia po stronie aplikacji Frontend
-## Refactor po stronie Frontendowej m.in. adres do REST API Backendu, refactor ogólny kodu
-## Opcjonalne wprowadzenie opóźnień czasowych w serwisach odpowiedzialnych za pobieranie ziaren kawy, wody oraz mleka
-## Poprawki estetyczne warstwy Frontend
-## Konfiguracja Security pomiędzy backendem a Frontendem
+## Getting Started
+
+Project local setup guide
+
+### Prerequisites
+
+What things you need to install the software and how to install them
+
+```
+Give examples
+```
+
+### Installing
+
+A step by step series of examples that tell you how to get a development env running
+
+Say what the step will be
+
+```
+Give the example
+```
+
+And repeat
+
+```
+until finished
+```
+
+End with an example of getting some data out of the system or using it for a little demo
+
+## Running the tests
+
+Explain how to run the automated tests for this system
+
+### Break down into end to end tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+### And coding style tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
+## Built With
+
+* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [Maven](https://maven.apache.org/) - Dependency Management
+* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+## Authors
+
+* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone whose code was used
+* Inspiration
+* etc
